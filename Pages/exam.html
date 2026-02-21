@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Exam</title>
+    <link rel="stylesheet" href="../libs/all.min.css" />
+    <link rel="stylesheet" href="../libs/fontawesome.min.css" />
+    <link rel="stylesheet" href="../libs/solid.min.css" />
+
+    <link rel="stylesheet" href="../CSS/exam.css" />
+
+  </head>
+  <body>
+    <div class="parent">
+      <div class="timer">
+        <div class="timer-header">
+          <div class="top">
+            <h1>Welcome <span></span></h1>
+            <p>
+              Question <span id="question-number">1</span> of
+              <span id="total-questions">10</span>
+            </p>
+          </div>
+          <div class="right-side">
+            <div class="answered-count">
+              <div>
+                Answered
+                <span><span id="solved-count">0</span> /
+                  <span id="all-questions">10</span></span>
+              </div>
+            </div>
+            <div class="time-remaining">
+              <i class="fa-solid fa-clock"></i>
+              <span id="time-remaining">05:00</span>
+            </div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div id="progress-bar"></div>
+        </div>
+      </div>
+      <div class="question-navigator">
+        <div class="question-navigator-header">
+          <i class="fa-solid fa-list"></i>
+          <h2>Question Navigator</h2>
+        </div>
+        <div class="status-list">
+          <ul>
+            <li class="answered">Answered</li>
+            <li class="marked">Marked</li>
+            <li class="not-answered">Not Answered</li>
+            <li class="current">Current</li>
+          </ul>
+        </div>
+        <div class="questions-grid">
+          <div class="question current">1</div>
+          <div class="question not-answered">2</div>
+          <div class="question marked">3</div>
+          <div class="question not-answered">4</div>
+          <div class="question not-answered">5</div>
+          <div class="question not-answered">6</div>
+          <div class="question not-answered">7</div>
+          <div class="question not-answered">8</div>
+          <div class="question not-answered">9</div>
+          <div class="question not-answered">10</div>
+        </div>
+        <div class="questions-stats">
+          <div class="state-item answered">
+            <span>Answered:</span> <span>1</span>
+          </div>
+          <div class="state-item marked">
+            <span>Marked:</span> <span>1</span>
+          </div>
+          <div class="state-item not-answered">
+            <span>Not Answered:</span> <span>9</span>
+          </div>
+        </div>
+      </div>
+      <div class="question-area">
+        <div class="question-text">
+          <div class="question">
+            <h2>What is the capital of France?</h2>
+          </div>
+          <div id="mark-btn">
+            <i class="fa-solid fa-flag"></i>
+          </div>
+        </div>
+        <div class="options-list">
+        </div>
+        <div class="action-buttons">
+          <div id="prev-btn">
+            <button>
+              <i class="fa-solid fa-arrow-left"></i>
+              <span>Previous</span>
+            </button>
+          </div>
+          <div id="submit-btn">
+            <button>
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Submit Exam</span>
+            </button>
+          </div>
+          <div id="next-btn">
+            <button>
+              <span>Next</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="submit-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <i class="fa-solid fa-exclamation-triangle"></i>
+          <h2>Submit Exam?</h2>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to submit your exam?</p>
+          <div class="exam-summary">
+            <p>
+              <strong>Answered</strong>
+              <span id="modal-answered">0</span>
+            </p>
+            <p>
+              <strong>Unanswered</strong>
+              <span id="modal-unanswered">0</span>
+            </p>
+            <p>
+              <strong>Marked for review</strong>
+              <span id="modal-marked">0</span>
+            </p>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button id="cancel-submit" class="btn-cancel">
+            <i class="fa-solid fa-times"></i> Cancel
+          </button>
+          <button id="confirm-submit" class="btn-confirm">
+            <i class="fa-solid fa-check"></i> Submit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Warning Modal for leaving page
+    <div id="warning-modal" class="modal hidden">
+      <div class="modal-content warning">
+        <div class="modal-header">
+          <i class="fa-solid fa-exclamation-circle"></i>
+          <h2>Warning!</h2>
+        </div>
+        <div class="modal-body">
+          <p>
+            You cannot leave the exam page. Your progress will be lost if you
+            try to navigate away.
+          </p>
+        </div>
+        <div class="modal-actions">
+          <button id="close-warning" class="btn-confirm">
+            <i class="fa-solid fa-check"></i> I Understand
+          </button>
+        </div>
+      </div>
+    </div> -->
+
+    <!--  Time's Up Modal -->
+    <div id="times-up-modal" class="modal hidden">
+      <div class="modal-content">
+        <div class="modal-header">
+          <i class="fa-solid fa-clock" style="color: red"></i>
+          <h2>Time's Up!</h2>
+        </div>
+        <div class="modal-body">
+          <p>Your time is up! Please submit your exam.</p>
+        </div>
+        <div class="modal-actions">
+          <button id="close-times-up" class="btn-confirm">
+            <i class="fa-solid fa-check"></i> Okay
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="../JS/exam.js"></script>
+  </body>
+</html>

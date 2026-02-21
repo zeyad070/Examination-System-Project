@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(90deg, #e2e2e2, #c9d6ff);
+  min-height: 100vh;
+}
+
+/* NAV */
+.nav {
+  background: #fff;
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .1);
+  border-radius: 0 0 25px 25px;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 800;
+  color: #7494ec;
+}
+
+.logout {
+  background: #7494ec;
+  border: none;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* WRAPPER */
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+}
+
+/* CARD */
+.quiz-card {
+  background: #fff;
+  width: 100%;
+  max-width: 650px;
+  border-radius: 30px;
+  padding: 40px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, .15);
+  text-align: center;
+  overflow: hidden;
+}
+
+
+/* BADGE */
+.badge {
+  background: #7494ec;
+  color: #fff;
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  margin-bottom: 15px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* TITLES */
+.quiz-card h1 {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #7494ec;
+  width: 0;
+  animation: typing 2s steps(20, end) forwards, blink .8s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+
+@keyframes blink {
+
+  from,
+  to {
+    border-right: 3px solid #7494ec;
+  }
+
+  50% {
+    border-color: transparent;
+  }
+}
+
+
+.subtitle {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* GRID */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.info-box {
+  background: #f3f4f6;
+  padding: 15px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .08);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+.info-box:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.info-box:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.info-box:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.info-box:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+.wrapper:hover .info-box,
+.wrapper.loaded .info-box {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* hover صغير على كل box */
+.info-box:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+}
+
+.info-box span {
+  font-size: 22px;
+}
+
+/* INSTRUCTIONS */
+.instructions {
+  text-align: left;
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 25px;
+}
+
+.instructions h3 {
+  margin-bottom: 10px;
+}
+
+.instructions ul {
+  list-style: none;
+}
+
+.instructions li {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+/* FOOTER */
+.quiz-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #555;
+}
+
+.start-btn {
+  background: #7494ec;
+  border: none;
+  color: #fff;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(0, 0, 0, .15);
+  transition: .3s;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+.start-btn:hover {
+  transform: translateY(-6px) scale(1.08);
+  box-shadow: 0 15px 35px rgba(116, 148, 236, 0.4);
+  animation: none;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px) {
+
+  .nav {
+    padding: 15px 20px;
+  }
+
+  .logo {
+    font-size: 22px;
+  }
+
+  .wrapper {
+    padding: 40px 15px;
+  }
+
+  .quiz-card {
+    padding: 30px 20px;
+    border-radius: 22px;
+  }
+
+  .quiz-card h1 {
+    font-size: 24px;
+  }
+
+}
+
+@media(max-width:480px) {
+
+  .nav {
+    padding: 12px 15px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .quiz-card {
+    padding: 25px 16px;
+  }
+
+  .instructions {
+    padding: 15px;
+  }
+
+  .start-btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+}

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Quiz Intro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../CSS/quiz-intro.css">
+  </head>
+
+  <body>
+
+    <!-- ===== NAV ===== -->
+    <nav class="nav">
+      <div class="logo">Online Exam</div>
+      <div class="nav-links">
+        <button class="logout" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+
+    <!-- ===== QUIZ INTRO CARD ===== -->
+    <section class="wrapper">
+
+      <div class="quiz-card">
+
+        <div class="badge">🧠 Quiz Ready</div>
+
+        <h1>Ready to Test Your Knowledge?</h1>
+        <p class="subtitle">Challenge yourself with our interactive quiz</p>
+
+        <!-- INFO GRID -->
+        <div class="info-grid">
+
+          <div class="info-box">
+            <span>📄</span>
+            <div>
+              <h3>Questions</h3>
+              <p>10 Questions</p>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <span>⏱</span>
+            <div>
+              <h3>Duration</h3>
+              <p> 5 MIN</p>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <span>🎯</span>
+            <div>
+              <h3>Difficulty</h3>
+              <p>Medium</p>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <span>📅</span>
+            <div>
+              <h3>Date</h3>
+              <p>Jan 8, 2026</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- INSTRUCTIONS -->
+        <div class="instructions">
+          <h3>Instructions</h3>
+          <ul>
+            <li>✔ Answer all questions within the time limit</li>
+            <li>✔ You can flag questions for review</li>
+            <li>✔ Click submit when you're done</li>
+            <li>✔ Your progress will be saved automatically</li>
+          </ul>
+        </div>
+
+        <!-- FOOT -->
+        <div class="quiz-footer">
+          <div class="stats">
+            <span>🏆 Pass Rate: 50%</span>
+            <span>⭐ Avg Score: 5/10</span>
+          </div>
+
+          <button class="start-btn" onclick="startQuiz()">Start Quiz Now
+            →</button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <script src="../JS/quiz-intro.js"></script>
+  </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examination System</title>
+
+    <!-- Icons -->
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css"
+      rel="stylesheet">
+    <link
+      href="https://cdn.boxicons.com/3.0.8/fonts/filled/boxicons-filled.min.css"
+      rel="stylesheet">
+    <link
+      href="https://cdn.boxicons.com/3.0.8/fonts/brands/boxicons-brands.min.css"
+      rel="stylesheet">
+
+    <link rel="stylesheet" href="CSS/style.css">
+  </head>
+  <body>
+    <div class="container">
+
+      <div class="form-box login">
+        <form class="auth-form">
+          <h1>Login</h1>
+
+          <div class="input-box">
+            <input type="email" id="loginEmail" placeholder=" "
+              required>
+            <label for="loginEmail">Email</label>
+            <i class="bxl bx-gmail"></i>
+            <span class="error-message" id="loginEmailError"></span>
+          </div>
+
+          <div class="input-box password-box">
+            <input type="password" id="loginPass"
+              placeholder=" "
+              required minlength="8">
+            <label for="loginPass">Password</label>
+            <i class="bx bx-eye-slash toggle-password"
+              data-target="loginPass"></i>
+            <span class="error-message" id="loginPassError"></span>
+          </div>
+
+          <div class="forget-link">
+            <a href="#">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn">Login</button>
+
+          <p>or login with social platforms</p>
+          <div class="social-icons">
+            <a href="#"><i class="bxl bx-google"></i></a>
+            <a href="#"><i class="bxl bx-facebook"></i></a>
+            <a href="#"><i class="bxl bx-github"></i></a>
+            <a href="#"><i class="bxl bx-linkedin"></i></a>
+          </div>
+        </form>
+      </div>
+
+      <div class="form-box register">
+        <form class="auth-form" id="registerForm">
+          <h1>Registration</h1>
+
+          <!-- Progress Bar -->
+          <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+            <div class="steps">
+              <div class="step active" data-step="1">1</div>
+              <div class="step" data-step="2">2</div>
+            </div>
+          </div>
+
+          <!-- Step 1 -->
+          <div class="step-content active" data-step="1">
+            <div class="input-group">
+              <div class="input-box">
+                <input type="text" id="registerFirstName" placeholder=" "
+                  required minlength="2">
+                <label for="registerFirstName">First Name</label>
+                <i class="bx bx-user"></i>
+                <span class="error-message" id="registerFirstNameError"></span>
+              </div>
+
+              <div class="input-box">
+                <input type="text" id="registerLastName" placeholder=" "
+                  required minlength="2">
+                <label for="registerLastName">Last Name</label>
+                <i class="bx bx-user"></i>
+                <span class="error-message" id="registerLastNameError"></span>
+              </div>
+            </div>
+
+            <button type="button" class="btn next-btn">Next</button>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="step-content" data-step="2">
+            <div class="input-box">
+              <input type="email" id="registerEmail" placeholder=" " required>
+              <label for="registerEmail">Email</label>
+              <i class="bxl bx-gmail"></i>
+              <span class="error-message" id="registerEmailError"></span>
+            </div>
+
+            <div class="input-box password-box">
+              <input type="password" id="registerPass" placeholder=" " required
+                minlength="8">
+              <label for="registerPass">Password</label>
+              <i class="bx bx-eye-slash toggle-password"
+                data-target="registerPass"></i>
+              <span class="error-message" id="registerPassError"></span>
+            </div>
+
+            <div class="input-box password-box">
+              <input type="password" id="registerConfirmPass" placeholder=" "
+                required>
+              <label for="registerConfirmPass">Confirm Password</label>
+              <i class="bx bx-eye-slash toggle-password"
+                data-target="registerConfirmPass"></i>
+              <span class="error-message" id="registerConfirmPassError"></span>
+            </div>
+
+            <div class="buttons-group">
+              <button type="button" class="btn prev-btn">Previous</button>
+              <button type="submit" class="btn">Register</button>
+            </div>
+          </div>
+
+          <p>or register with social platforms</p>
+          <div class="social-icons">
+            <a href="#"><i class="bxl bx-google"></i></a>
+            <a href="#"><i class="bxl bx-facebook"></i></a>
+            <a href="#"><i class="bxl bx-github"></i></a>
+            <a href="#"><i class="bxl bx-linkedin"></i></a>
+          </div>
+        </form>
+      </div>
+
+      <div class="toggle-box">
+        <div class="toggle-panel toggle-left">
+          <h1>Hello, Welcome!</h1>
+          <p>Don't have an account?</p>
+          <button class="btn register-btn">Register</button>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <h1>Welcome back!</h1>
+          <p>Already have an account?</p>
+          <button class="btn login-btn">Login</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div id="toastAlert" class="toast-custom">
+      <span id="toastMessage"></span>
+    </div>
+
+    <script src="JS/script.js"></script>
+  </body>
+</html>

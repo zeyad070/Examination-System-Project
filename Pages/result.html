@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="../CSS/result.css">
+  </head>
+
+  <body>
+
+    <!-- NAV -->
+    <nav class="nav">
+      <div class="logo">Online Exam</div>
+      <div class="nav-links">
+        <button class="logout" onclick="logout()">Logout</button>
+      </div>
+    </nav>
+
+    <!-- RESULT -->
+    <section class="result-wrapper">
+
+      <div class="result-card">
+
+        <h1 id="resultTitle">🎉 Congratulations!</h1>
+        <p class="subtitle" id="userName">Here is your result summary</p>
+
+        <!-- SCORE -->
+        <div class="progress-circle" data-percent="75">
+          <svg viewBox="0 0 120 120">
+            <circle class="bg" cx="60" cy="60" r="54"></circle>
+            <circle class="fg" cx="60" cy="60" r="54"></circle>
+          </svg>
+          <div class="percent-number" id="percentText">0%</div>
+        </div>
+        <!-- INFO -->
+        <div class="info-grid">
+          <div class="info-box">
+            <p>Status</p>
+            <h3 id="statusText" class="pass">Passed</h3>
+          </div>
+
+          <div class="info-box">
+            <p>Time Taken</p>
+            <h3 id="timeText">45 sec</h3>
+          </div>
+
+          <div class="info-box">
+            <p>Correct Answers</p>
+            <h3 id="correctText">8</h3>
+          </div>
+
+          <div class="info-box">
+            <p>Wrong Answers</p>
+            <h3 id="wrongText">2</h3>
+          </div>
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="actions">
+          <button class="btn primary" onclick="startNew()">Start New
+            Quiz</button>
+          <button class="btn outline" onclick="review()">Review Answers</button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="../JS/result.js"></script>
+  </body>
+</html>
