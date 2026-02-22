@@ -63,7 +63,7 @@ if (sessionStorage.getItem("examInProgress")) {
           currentStep++;
           showStep(currentStep);
         } else {
-          showToast("Please fill all fields correctly", "error");
+          showToast("Please fill all fields correctly", "info");
         }
       });
     });
@@ -97,7 +97,7 @@ if (sessionStorage.getItem("examInProgress")) {
       }
 
       if (!isValid) {
-        showToast("Please correct the errors in the fields", "error");
+        showToast("Please correct the errors in the fields", "warning");
         return;
       }
 
@@ -286,7 +286,7 @@ if (sessionStorage.getItem("examInProgress")) {
     confirmBox.classList.remove("error", "success");
     if (errorSpan) errorSpan.textContent = "";
 
-    const passValue = passInput?.value.trim() || "";
+    const passValue = passInput.value.trim() || "";
     const confirmValue = confirmInput.value.trim();
 
     if (confirmValue === "") {
