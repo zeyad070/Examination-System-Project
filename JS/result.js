@@ -126,6 +126,7 @@ function startNew() {
   localStorage.removeItem("examAnswers");
   localStorage.removeItem("examQuestions_live");
   localStorage.removeItem("examAnswers_live");
+  sessionStorage.clear();
 
   window.location.replace("../Pages/quiz-intro.html");
 }
@@ -226,6 +227,6 @@ function logout() {
   localStorage.removeItem("examAnswers");
   localStorage.removeItem("examQuestions_live");
   localStorage.removeItem("examAnswers_live");
-  sessionStorage.removeItem("examInProgress");
+  sessionStorage.clear();
   window.location.replace("../index.html");
 }

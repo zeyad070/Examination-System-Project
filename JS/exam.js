@@ -1,13 +1,13 @@
-if (
-  sessionStorage.getItem("examInProgress") &&
-  localStorage.getItem("examSubmitted") === "true"
-) {
-  localStorage.removeItem("examSubmitted");
-  localStorage.removeItem("examLocked");
-  localStorage.removeItem("examResult");
-  localStorage.removeItem("examQuestions");
-  localStorage.removeItem("examAnswers");
-}
+// if (
+//   sessionStorage.getItem("examInProgress") &&
+//   localStorage.getItem("examSubmitted") === "true"
+// ) {
+//   localStorage.removeItem("examSubmitted");
+//   localStorage.removeItem("examLocked");
+//   localStorage.removeItem("examResult");
+//   localStorage.removeItem("examQuestions");
+//   localStorage.removeItem("examAnswers");
+// }
 
 // LOGIN GUARD
 ////////////////////////////////

@@ -162,7 +162,7 @@ body {
   transform: translateY(0);
 }
 
-/* hover صغير على كل box */
+/* hover box */
 .info-box:hover {
   transform: translateY(-8px) scale(1.04);
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
