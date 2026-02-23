@@ -11,11 +11,6 @@ if (localStorage.getItem("examLocked") === "true") {
 // RESUME or SETUP
 if (sessionStorage.getItem("examInProgress")) {
   window.location.replace("../Pages/exam.html");
-} else {
-  history.pushState(null, "", location.href);
-  window.addEventListener("popstate", () => {
-    history.pushState(null, "", location.href);
-  });
 }
 
 function startQuiz() {

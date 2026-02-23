@@ -34,8 +34,8 @@ if (loggedInEmail) {
   if (stored) {
     try {
       const data = JSON.parse(stored);
-      const first = data.firstName?.trim() || "";
-      const last = data.lastName?.trim() || "";
+      const first = data.firstName.trim() || "";
+      const last = data.lastName.trim() || "";
 
       if (first || last) {
         fullName = "";

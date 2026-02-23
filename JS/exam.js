@@ -261,6 +261,13 @@ function loadQuestion() {
   updateSolvedCount();
   updateNavigator();
   saveSession();
+
+  if (currentQuestion === 0) prevBtn.classList.add("disabled");
+  else prevBtn.classList.remove("disabled");
+
+  if (currentQuestion === questions.length - 1)
+    nextBtn.classList.add("disabled");
+  else nextBtn.classList.remove("disabled");
 }
 
 function selectAnswer(index) {
