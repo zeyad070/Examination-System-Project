@@ -280,6 +280,10 @@ body {
     padding: 25px 16px;
   }
 
+  .quiz-card h1 {
+    font-size: 20px;
+  }
+
   .instructions {
     padding: 15px;
   }

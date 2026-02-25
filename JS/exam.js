@@ -1,14 +1,3 @@
-// if (
-//   sessionStorage.getItem("examInProgress") &&
-//   localStorage.getItem("examSubmitted") === "true"
-// ) {
-//   localStorage.removeItem("examSubmitted");
-//   localStorage.removeItem("examLocked");
-//   localStorage.removeItem("examResult");
-//   localStorage.removeItem("examQuestions");
-//   localStorage.removeItem("examAnswers");
-// }
-
 // LOGIN GUARD
 ////////////////////////////////
 if (!localStorage.getItem("loggedInUser")) {
@@ -144,14 +133,7 @@ function shuffle(array) {
   return array;
 }
 
-let shuffled = sessionStorage.getItem("shuffledQuestions");
-
-if (!shuffled) {
-  shuffled = shuffle([...questions]);
-  sessionStorage.setItem("shuffledQuestions", JSON.stringify(shuffled));
-} else {
-  shuffled = JSON.parse(shuffled);
-}
+shuffled = shuffle([...questions]);
 
 questions = shuffled;
 
@@ -221,8 +203,6 @@ function saveSession() {
   sessionStorage.setItem("answers", JSON.stringify(answers));
   sessionStorage.setItem("marked", JSON.stringify(markedQuestions));
   sessionStorage.setItem("currentQuestion", currentQuestion);
-  localStorage.setItem("examAnswers_live", JSON.stringify(answers));
-  localStorage.setItem("examQuestions_live", JSON.stringify(questions));
 }
 
 // LOAD QUESTION
@@ -390,8 +370,6 @@ function finishExam() {
   sessionStorage.removeItem("marked");
   sessionStorage.removeItem("examEndTime");
   sessionStorage.removeItem("shuffledQuestions");
-  localStorage.removeItem("examQuestions_live");
-  localStorage.removeItem("examAnswers_live");
 
   window.location.replace("../Pages/result.html");
 }
