@@ -1,13 +1,36 @@
+//Users Array Management
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users") || "[]");
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function getCurrentUser() {
+  const email = localStorage.getItem("loggedInUser");
+  if (!email) return null;
+  return getUsers().find((u) => u.email === email) || null;
+}
+
+// LOGIN GUARD
+if (!localStorage.getItem("loggedInUser")) {
+  window.location.replace("../index.html");
+}
+
 if (sessionStorage.getItem("examInProgress")) {
   window.location.replace("../Pages/exam.html");
 }
 
-if (localStorage.getItem("examSubmitted") === "true") {
+const currentUser = getCurrentUser();
+if (currentUser && currentUser.examSubmitted === true) {
   window.location.replace("../Pages/result.html");
 }
 
 function startExam() {
-  if (localStorage.getItem("examLocked") === "true") {
+  const user = getCurrentUser();
+
+  if (user && user.examLocked === true) {
     window.location.replace("../Pages/result.html");
     return;
   }
@@ -22,12 +45,6 @@ function startExam() {
 
 function logout() {
   localStorage.removeItem("loggedInUser");
-  localStorage.removeItem("examResult");
-  localStorage.removeItem("examSubmitted");
-  localStorage.removeItem("examLocked");
-
-  sessionStorage.removeItem("examInProgress");
-  sessionStorage.removeItem("shuffledQuestions");
-
+  sessionStorage.clear();
   window.location.replace("../index.html");
 }

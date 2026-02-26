@@ -1,3 +1,16 @@
+//Users Array Management
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users") || "[]");
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function findUserByEmail(email) {
+  return getUsers().find((u) => u.email === email) || null;
+}
+
 if (sessionStorage.getItem("examInProgress")) {
   window.location.replace("../Pages/exam.html");
 } else {
@@ -26,7 +39,7 @@ if (sessionStorage.getItem("examInProgress")) {
     container.classList.remove("active");
   });
 
-  //Multi-step Registration Logic
+  // Multi-step Registration Logic
   const registerForm = document.getElementById("registerForm");
 
   if (registerForm) {
@@ -45,11 +58,9 @@ if (sessionStorage.getItem("examInProgress")) {
         s.classList.toggle("active", i <= stepIndex);
       });
 
-      //progress
       progress.style.width = (stepIndex / (steps.length - 1)) * 100 + "%";
     }
 
-    // Next button with validation
     nextBtns.forEach((btn) => {
       btn.addEventListener("click", () => {
         const inputs = steps[currentStep].querySelectorAll("input");
@@ -75,7 +86,6 @@ if (sessionStorage.getItem("examInProgress")) {
       });
     });
 
-    // Live confirm password validation
     const confirmPassInput = document.getElementById("registerConfirmPass");
     if (confirmPassInput) {
       confirmPassInput.addEventListener("input", validateConfirmPassword);
@@ -108,24 +118,27 @@ if (sessionStorage.getItem("examInProgress")) {
       const email = document.getElementById("registerEmail").value.trim();
       const password = document.getElementById("registerPass").value.trim();
 
-      if (localStorage.getItem(email)) {
+      if (findUserByEmail(email)) {
         showToast("Email already registered", "error");
         return;
       }
 
-      // Save user data
-      localStorage.setItem(
+      const users = getUsers();
+      users.push({
         email,
-        JSON.stringify({
-          firstName,
-          lastName,
-          password,
-        }),
-      );
+        firstName,
+        lastName,
+        password,
+        examResult: null,
+        examSubmitted: false,
+        examLocked: false,
+        examQuestions: [],
+        examAnswers: [],
+      });
+      saveUsers(users);
 
       showToast("Account created successfully!", "success");
 
-      // Lock registration after successful sign up
       localStorage.setItem("justRegistered", "true");
       lockRegisterBtn();
 
@@ -136,8 +149,7 @@ if (sessionStorage.getItem("examInProgress")) {
     });
   }
 
-  //Password Visibility Toggle
-
+  // Password Visibility Toggle
   document.querySelectorAll(".toggle-password").forEach((icon) => {
     icon.addEventListener("click", () => {
       const input = document.getElementById(icon.dataset.target);
@@ -152,8 +164,7 @@ if (sessionStorage.getItem("examInProgress")) {
     });
   });
 
-  //Login + General Form Validation
-
+  // Login & General Form Validation
   document.querySelectorAll(".auth-form").forEach((form) => {
     const inputs = form.querySelectorAll("input");
 
@@ -165,7 +176,6 @@ if (sessionStorage.getItem("examInProgress")) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // Handle only login form here
       if (form.closest(".form-box.login")) {
         let isValid = true;
         inputs.forEach((input) => {
@@ -177,22 +187,14 @@ if (sessionStorage.getItem("examInProgress")) {
         const email = document.getElementById("loginEmail").value.trim();
         const password = document.getElementById("loginPass").value.trim();
 
-        const storedData = localStorage.getItem(email);
+        const user = findUserByEmail(email);
 
-        if (!storedData) {
+        if (!user) {
           showToast("Invalid email or password", "error");
           return;
         }
 
-        let storedPassword;
-        try {
-          const userData = JSON.parse(storedData);
-          storedPassword = userData.password;
-        } catch {
-          storedPassword = storedData;
-        }
-
-        if (storedPassword !== password) {
+        if (user.password !== password) {
           showToast("Invalid email or password", "error");
           return;
         }
@@ -203,7 +205,7 @@ if (sessionStorage.getItem("examInProgress")) {
     });
   });
 
-  //Helper Functions
+  // Helper Functions
 
   function showToast(message, type) {
     const toast = document.getElementById("toastAlert");
@@ -226,14 +228,12 @@ if (sessionStorage.getItem("examInProgress")) {
 
     const value = input.value.trim();
 
-    // Required field
     if (input.hasAttribute("required") && value === "") {
       box.classList.add("error");
       errorSpan.textContent = "This field is required";
       return false;
     }
 
-    // First & Last Name
     if (input.id === "registerFirstName" || input.id === "registerLastName") {
       const nameRegex = /^[A-Za-z\s\u0600-\u06FF]{2,}$/;
       if (value !== "" && !nameRegex.test(value)) {
@@ -244,7 +244,6 @@ if (sessionStorage.getItem("examInProgress")) {
       }
     }
 
-    // Email format
     if (input.type === "email" && value !== "") {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(value)) {
@@ -254,7 +253,6 @@ if (sessionStorage.getItem("examInProgress")) {
       }
     }
 
-    // Password strength
     if (
       input.type === "password" &&
       input.id !== "registerConfirmPass" &&

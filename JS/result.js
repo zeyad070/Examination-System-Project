@@ -1,11 +1,36 @@
+// Users Array Management
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users") || "[]");
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function getCurrentUser() {
+  const email = localStorage.getItem("loggedInUser");
+  if (!email) return null;
+  return getUsers().find((u) => u.email === email) || null;
+}
+
+function updateCurrentUser(updates) {
+  const email = localStorage.getItem("loggedInUser");
+  if (!email) return;
+  const users = getUsers();
+  const index = users.findIndex((u) => u.email === email);
+  if (index !== -1) {
+    users[index] = { ...users[index], ...updates };
+    saveUsers(users);
+  }
+}
+
 // LOGIN GUARD
 if (!localStorage.getItem("loggedInUser")) {
   window.location.replace("../index.html");
 }
 
-// RESULT GUARD
-const resultRaw = localStorage.getItem("examResult");
-if (!resultRaw) {
+const currentUser = getCurrentUser();
+if (!currentUser || !currentUser.examResult) {
   window.location.replace("../Pages/dashboard.html");
 }
 
@@ -15,38 +40,20 @@ window.addEventListener("popstate", () => {
   history.pushState(null, "", location.href);
 });
 
-// LOAD RESULT
-const resultData = JSON.parse(resultRaw);
+const resultData = currentUser.examResult;
 const percent = Math.round((resultData.score / resultData.total) * 100);
 document.querySelector(".progress-circle").dataset.percent = percent;
 
-// Update texts immediately (fallback)
 document.getElementById("correctText").innerText = resultData.score;
 document.getElementById("wrongText").innerText =
   resultData.total - resultData.score;
 document.getElementById("timeText").innerText = resultData.time + " sec";
 
-const loggedInEmail = localStorage.getItem("loggedInUser");
 let fullName = "Student";
-
-if (loggedInEmail) {
-  const stored = localStorage.getItem(loggedInEmail);
-  if (stored) {
-    try {
-      const data = JSON.parse(stored);
-      const first = data.firstName.trim() || "";
-      const last = data.lastName.trim() || "";
-
-      if (first || last) {
-        fullName = "";
-        if (first) fullName += first;
-        if (first && last) fullName += " ";
-        if (last) fullName += last;
-      }
-    } catch (e) {
-      console.error("Error parsing user data:", e);
-    }
-  }
+const first = (currentUser.firstName || "").trim();
+const last = (currentUser.lastName || "").trim();
+if (first || last) {
+  fullName = [first, last].filter(Boolean).join(" ");
 }
 
 document.getElementById("userName").textContent =
@@ -86,7 +93,6 @@ function startProgressAnimation() {
   if (!circle || !percentEl || !container) return;
 
   const percent = parseFloat(container.dataset.percent) || 0;
-
   const circumference = 340;
   const offset = (circumference * (100 - percent)) / 100;
 
@@ -113,24 +119,26 @@ function startProgressAnimation() {
     percentEl.textContent = Math.round(current) + "%";
   }, stepTime);
 }
+
 window.addEventListener("load", () => {
   startProgressAnimation();
 });
 
 // START NEW EXAM
 function startNew() {
-  localStorage.removeItem("examSubmitted");
-  localStorage.removeItem("examResult");
-  localStorage.removeItem("examLocked");
-  localStorage.removeItem("examQuestions");
-  localStorage.removeItem("examAnswers");
-  localStorage.removeItem("examQuestions_live");
-  localStorage.removeItem("examAnswers_live");
-  sessionStorage.clear();
+  updateCurrentUser({
+    examSubmitted: false,
+    examLocked: false,
+    examResult: null,
+    examQuestions: [],
+    examAnswers: [],
+  });
 
+  sessionStorage.clear();
   window.location.replace("../Pages/quiz-intro.html");
 }
 
+// REVIEW ANSWERS
 function review() {
   let reviewDiv = document.querySelector("#review-answers-section");
 
@@ -139,8 +147,9 @@ function review() {
     return;
   }
 
-  const questions = JSON.parse(localStorage.getItem("examQuestions") || "[]");
-  const userAnswers = JSON.parse(localStorage.getItem("examAnswers") || "[]");
+  const user = getCurrentUser();
+  const questions = user.examQuestions || [];
+  const userAnswers = user.examAnswers || [];
 
   if (questions.length === 0) {
     alert("No previous exam data to review");
@@ -168,22 +177,14 @@ function review() {
       <div class="review-question-text">
         Question ${i + 1}: ${q.text}
       </div>
-
       <div class="options-review">
     `;
 
     q.options.forEach((option, idx) => {
       let optionClass = "review-option";
-
-      if (idx === correctIdx) {
-        optionClass += " correct";
-      }
+      if (idx === correctIdx) optionClass += " correct";
       if (idx === userChoice) {
-        if (isCorrect) {
-          optionClass += " selected correct";
-        } else {
-          optionClass += " selected wrong";
-        }
+        optionClass += isCorrect ? " selected correct" : " selected wrong";
       }
 
       html += `
@@ -195,7 +196,6 @@ function review() {
 
     html += `
       </div>
-
       <div class="review-feedback ${isCorrect ? "correct" : "wrong"}">
         ${
           isCorrect
@@ -220,13 +220,6 @@ function review() {
 // LOGOUT
 function logout() {
   localStorage.removeItem("loggedInUser");
-  localStorage.removeItem("examResult");
-  localStorage.removeItem("examSubmitted");
-  localStorage.removeItem("examLocked");
-  localStorage.removeItem("examQuestions");
-  localStorage.removeItem("examAnswers");
-  localStorage.removeItem("examQuestions_live");
-  localStorage.removeItem("examAnswers_live");
   sessionStorage.clear();
   window.location.replace("../index.html");
 }

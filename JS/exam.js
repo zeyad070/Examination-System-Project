@@ -1,31 +1,51 @@
+//Users Array Management
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users") || "[]");
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function getCurrentUser() {
+  const email = localStorage.getItem("loggedInUser");
+  if (!email) return null;
+  return getUsers().find((u) => u.email === email) || null;
+}
+
+function updateCurrentUser(updates) {
+  const email = localStorage.getItem("loggedInUser");
+  if (!email) return;
+  const users = getUsers();
+  const index = users.findIndex((u) => u.email === email);
+  if (index !== -1) {
+    users[index] = { ...users[index], ...updates };
+    saveUsers(users);
+  }
+}
+
 // LOGIN GUARD
-////////////////////////////////
 if (!localStorage.getItem("loggedInUser")) {
   window.location.replace("../index.html");
 }
 
 // PREVENT DIRECT ACCESS
-////////////////////////////////
 if (!sessionStorage.getItem("examInProgress")) {
   window.location.replace("../Pages/dashboard.html");
 }
 
-// IF ALREADY SUBMITTED
-////////////////////////////////
-if (localStorage.getItem("examSubmitted") === "true") {
+const currentUser = getCurrentUser();
+if (currentUser && currentUser.examSubmitted === true) {
   window.location.replace("../Pages/result.html");
 }
 
 // ALLOW LEAVE FLAG
-////////////////////////////////
 var allowLeave = false;
 
 // BACK NAVIGATION FLAG
-////////////////////////////////
 var isBackNavigation = false;
 
 // BLOCK BACK BUTTON
-////////////////////////////////
 history.pushState(null, "", location.href);
 
 window.addEventListener("popstate", function () {
@@ -39,7 +59,6 @@ window.addEventListener("popstate", function () {
 });
 
 // QUESTIONS
-///////////////////////////////
 var questions = [
   {
     text: "What does API stand for?",
@@ -119,7 +138,6 @@ var questions = [
 ];
 
 // SHUFFLE QUESTIONS
-////////////////////////////////
 function shuffle(array) {
   let currentIndex = array.length;
   while (currentIndex > 0) {
@@ -134,17 +152,14 @@ function shuffle(array) {
 }
 
 shuffled = shuffle([...questions]);
-
 questions = shuffled;
 
 // LOAD SESSION
-///////////////////////////////
 var currentQuestion = Number(sessionStorage.getItem("currentQuestion")) || 0;
 var answers = JSON.parse(sessionStorage.getItem("answers") || "[]");
 var markedQuestions = JSON.parse(sessionStorage.getItem("marked") || "[]");
 
 var examDuration = 5 * 60;
-
 var examEndTime = Number(sessionStorage.getItem("examEndTime"));
 
 if (!examEndTime || examEndTime < Date.now()) {
@@ -158,7 +173,6 @@ if (totalTime < 0) totalTime = 0;
 var timerInterval;
 
 // DOM
-//////////////////////////////////
 var questionTitle = document.querySelector(".question h2");
 var optionsList = document.querySelector(".options-list");
 var questionNumber = document.getElementById("question-number");
@@ -189,7 +203,6 @@ var timeRemainingElement = document.getElementById("time-remaining");
 var progressBar = document.getElementById("progress-bar");
 
 // INIT
-//////////////////////////////////
 totalQuestions.innerHTML = questions.length;
 allQuestions.innerHTML = questions.length;
 loadQuestion();
@@ -197,8 +210,6 @@ updateNavigator();
 startTimer();
 
 // SAVE SESSION
-//////////////////////////////////
-
 function saveSession() {
   sessionStorage.setItem("answers", JSON.stringify(answers));
   sessionStorage.setItem("marked", JSON.stringify(markedQuestions));
@@ -206,8 +217,6 @@ function saveSession() {
 }
 
 // LOAD QUESTION
-//////////////////////////////////
-
 function loadQuestion() {
   var q = questions[currentQuestion];
   questionTitle.innerHTML = q.text;
@@ -322,8 +331,6 @@ prevBtn.onclick = function () {
 };
 
 // SUBMIT
-//////////////////////////////////
-
 submitBtn.onclick = function () {
   var answered = answers.filter((a) => a !== undefined).length;
   var marked = markedQuestions.filter((m) => m).length;
@@ -341,7 +348,6 @@ cancelSubmit.onclick = function () {
 
 function finishExam() {
   allowLeave = true;
-
   clearInterval(timerInterval);
 
   let score = 0;
@@ -357,12 +363,13 @@ function finishExam() {
     time: examDuration - totalTime,
   };
 
-  localStorage.setItem("examResult", JSON.stringify(resultData));
-  localStorage.setItem("examSubmitted", "true");
-  localStorage.setItem("examLocked", "true");
-
-  localStorage.setItem("examQuestions", JSON.stringify(questions));
-  localStorage.setItem("examAnswers", JSON.stringify(answers));
+  updateCurrentUser({
+    examResult: resultData,
+    examSubmitted: true,
+    examLocked: true,
+    examQuestions: questions,
+    examAnswers: answers,
+  });
 
   sessionStorage.removeItem("examInProgress");
   sessionStorage.removeItem("currentQuestion");
@@ -373,12 +380,11 @@ function finishExam() {
 
   window.location.replace("../Pages/result.html");
 }
+
 confirmSubmit.onclick = finishExam;
 closeTimesUp.onclick = finishExam;
 
 // TIMER
-//////////////////////////////////
-
 function startTimer() {
   timerInterval = setInterval(function () {
     totalTime = Math.floor((examEndTime - Date.now()) / 1000);
@@ -405,11 +411,8 @@ function startTimer() {
 }
 
 // WARNING BEFORE LEAVING PAGE
-//////////////////////////////////
-
 window.addEventListener("beforeunload", function (e) {
   if (allowLeave) return;
-
   if (isBackNavigation) return;
 
   saveSession();
@@ -425,11 +428,13 @@ window.addEventListener("beforeunload", function (e) {
     time: examDuration - totalTime,
   };
 
-  localStorage.setItem("examResult", JSON.stringify(resultData));
-  localStorage.setItem("examSubmitted", "true");
-  localStorage.setItem("examLocked", "true");
-  localStorage.setItem("examQuestions", JSON.stringify(questions));
-  localStorage.setItem("examAnswers", JSON.stringify(answers));
+  updateCurrentUser({
+    examResult: resultData,
+    examSubmitted: true,
+    examLocked: true,
+    examQuestions: questions,
+    examAnswers: answers,
+  });
 
   e.preventDefault();
   e.returnValue = "";

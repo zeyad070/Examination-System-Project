@@ -86,7 +86,7 @@ body {
   transition: all 0.4s ease;
 }
 
-.time-remaining.warning {
+.timer-header .right-side .time-remaining.warning {
   color: #ff4d4d;
   background-color: #ffe6e6;
   transform: scale(1.08);

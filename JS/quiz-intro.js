@@ -1,30 +1,58 @@
+// Users Array Management
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users") || "[]");
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+function getCurrentUser() {
+  const email = localStorage.getItem("loggedInUser");
+  if (!email) return null;
+  return getUsers().find((u) => u.email === email) || null;
+}
+
+function updateCurrentUser(updates) {
+  const email = localStorage.getItem("loggedInUser");
+  if (!email) return;
+  const users = getUsers();
+  const index = users.findIndex((u) => u.email === email);
+  if (index !== -1) {
+    users[index] = { ...users[index], ...updates };
+    saveUsers(users);
+  }
+}
+
 // LOGIN GUARD
 if (!localStorage.getItem("loggedInUser")) {
   window.location.replace("../index.html");
 }
 
-// RESULT GUARD
-if (localStorage.getItem("examLocked") === "true") {
+const currentUser = getCurrentUser();
+if (currentUser && currentUser.examLocked === true) {
   window.location.replace("../Pages/result.html");
 }
 
-// RESUME or SETUP
+// RESUME if exam already started
 if (sessionStorage.getItem("examInProgress")) {
   window.location.replace("../Pages/exam.html");
 }
 
 function startQuiz() {
-  localStorage.removeItem("examSubmitted");
+  updateCurrentUser({
+    examSubmitted: false,
+    examResult: null,
+    examQuestions: [],
+    examAnswers: [],
+  });
+
   sessionStorage.setItem("examInProgress", Date.now().toString());
-  localStorage.removeItem("examResult");
   window.location.replace("../Pages/exam.html");
 }
 
 function logout() {
   localStorage.removeItem("loggedInUser");
-  localStorage.removeItem("examResult");
-  localStorage.removeItem("examSubmitted");
-  localStorage.removeItem("examLocked");
   sessionStorage.removeItem("examInProgress");
   window.location.replace("../index.html");
 }
